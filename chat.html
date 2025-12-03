@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+<script>
+</script>
+</head>
+
+<body>
+
+<h1>Chatting with %s</h1>
+
+<textarea id="id_chatbox"></textarea>
+<button id="id_button_chatbox">Send</button>
+
+<script>
+(() => {
+
+document.getElementById("id_button_chatbox")
+        .addEventListener("click", function() {
+    let chatbox = document.getElementById("id_chatbox");
+    socket.send(chatbox.value);
+    chatbox.value = "";
+});
+
+})();
+</script>
+
+</body>
+</html>

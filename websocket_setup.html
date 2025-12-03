@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+<script>
+function insert_html(html) {
+    const range = document.createRange();
+    range.selectNode(document.body);
+    const fragment = range.createContextualFragment(html);
+    document.body.appendChild(fragment);
+}
+
+const socket = new WebSocket("ws://" + window.location.hostname + ":80");
+socket.binaryType = "arraybuffer";
+
+socket.onmessage = (event) => {
+    const view = new DataView(event.data);
+    const type = view.getUint8(0);
+    const text = new Uint8Array(event.data, 1);
+    const decoder = new TextDecoder("utf-8");
+
+    if(type == 0) { // PAGE
+        document.body.innerHTML = "";
+    } else if(type == 1) { // SNIPPET
+        // don't clear the page
+    }
+
+    insert_html(decoder.decode(text));
+};
+</script>
+</head>
+
+<body>
+
+<h1>Username</h1>
+
+<input type="text" placeholder="Enter a username" id="id_username">
+<button id="id_button_send_username">Send</button>
+<script>
+(() => {
+
+document.getElementById("id_button_send_username")
+        .addEventListener("click", function() {
+    socket.send(document.getElementById("id_username").value);
+});
+        
+})();
+</script>
+
+</body>
+</html>

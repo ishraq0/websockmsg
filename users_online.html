@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+<script>
+</script>
+</head>
+
+<body>
+
+<h1>Users online</h1>
+
+%s
+
+<script>
+(() => {
+
+let chat_buttons = document.getElementsByClassName("class_button_chat");
+for(let button of chat_buttons) {
+    button.addEventListener("click", () => { socket.send(button.id); });
+}
+
+let accept_buttons = document.getElementsByClassName("class_button_accept");
+for(let button of accept_buttons) {
+    button.addEventListener("click", () => { socket.send(button.id); });
+}
+
+})();
+</script>
+
+</body>
+</html>
